@@ -3,14 +3,39 @@
 const baseUrl = 'https://api.sampleapis.com/coffee';
 let currentCoffeType;
 
+// generating random drink of the day
+let counter = Math.round(Math.random());
+let urlAddition = counter ? "hot" : "iced";
+
+
+fetch(`${baseUrl }/${urlAddition}`)
+  .then(data => data.json())
+  .then(json =>{
+    let featuredDrinks = [];
+    for(let i=0; i<2; i++){
+      let counter = Math.floor(Math.random()*json.length);
+      featuredDrinks.push(json[counter])
+    }
+    if (featuredDrinks[0].title === featuredDrinks[1].title){
+      console.log('SAME!!!')
+      let newCounter = Math.floor(Math.random()*json.length);
+      featuredDrinks.pop()
+      featuredDrinks.push(json[newCounter])
+    }
+
+    document.getElementById("btn-home").classList.add("button-active");
+    buildingCards(featuredDrinks);
+  })
+
+
 
 // function that builds out coffee cards dynamicaly
 buildingCards = (json) => {
-
+  console.log(json)
     let cards = document.getElementById("coffe-cards-container");
 
     if (json.length < 1){
-      const emptySearchMessage = document.createElement("h2");
+      const emptySearchMessage = document.createElement("h3");
       emptySearchMessage.innerText = "No coffe found with provided name! Please enter correct name.";
       cards.appendChild(emptySearchMessage);
     }
@@ -20,7 +45,7 @@ buildingCards = (json) => {
       const card = document.createElement("div");
       card.classList.add("card-container");
 
-      const title = document.createElement("h3");
+      const title = document.createElement("h4");
       title.innerText = json[i].title;
       title.classList.add("name");
       card.appendChild(title);
@@ -85,13 +110,23 @@ buildingCards = (json) => {
   }
 
 // Buttons event listeners that also fire api calls
+
+document.getElementById("btn-home").addEventListener("click", function(event){
+  event.preventDefault();
+  location.reload();
+  
+});
+
+
 document.getElementById("btn-hot").addEventListener("click", function(event){
   event.preventDefault();
 
+  document.getElementById("btn-home").classList.remove("button-active");
   document.getElementById("btn-iced").classList.remove("button-active");
   document.getElementById("btn-hot").classList.add("button-active");
 
   document.getElementById("search").classList.remove("show-hide");
+  document.querySelector("h2").classList.add("show-hide");
   document.getElementById("search-value").placeholder = "Search HOT coffee drinks"
 
   currentCoffeType = "hot";
@@ -102,6 +137,7 @@ document.getElementById("btn-hot").addEventListener("click", function(event){
   document.getElementById("btn-iced").addEventListener("click", function(event){
   event.preventDefault();
 
+  document.getElementById("btn-home").classList.remove("button-active");
   document.getElementById("btn-hot").classList.remove("button-active");
   document.getElementById("btn-iced").classList.add("button-active");
 

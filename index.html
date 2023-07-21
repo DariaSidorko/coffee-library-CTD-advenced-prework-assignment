@@ -7,19 +7,22 @@
     <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <title>Asynchronous JavaScript</title>
+    <title>Coffee Library</title>
+    <link rel="icon" type="image/png" href="coffee-bean-icon.png">
   </head>
   <body>
     <header>
       <h1>COFFEE LIBRARY</h1>
     </header>
     <nav>
-      <button id="btn-hot">Hot</button>
-      <button id="btn-iced">Iced</button>
+      <button id="btn-home">Home</button>
+      <button id="btn-hot">Hot Drinks</button>
+      <button id="btn-iced">Iced Drinks</button>
     </nav>
     <main class="container">
+      <h2>FEATURED DRINKS:</h2>
       <form id="search" class="search-form show-hide">
-        <div>
+        <div class="input-container">
           <input type="text" id="search-value" placeholder="Coffee name" class="text" value="" onkeyup="search()">
         </div>
       </form>
