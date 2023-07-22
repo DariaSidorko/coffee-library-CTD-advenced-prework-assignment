@@ -7,7 +7,6 @@ let currentCoffeType;
 let counter = Math.round(Math.random());
 let urlAddition = counter ? "hot" : "iced";
 
-
 fetch(`${baseUrl }/${urlAddition}`)
   .then(data => data.json())
   .then(json =>{
@@ -17,49 +16,54 @@ fetch(`${baseUrl }/${urlAddition}`)
       featuredDrinks.push(json[counter])
     }
     if (featuredDrinks[0].title === featuredDrinks[1].title){
-      console.log('SAME!!!')
       let newCounter = Math.floor(Math.random()*json.length);
       featuredDrinks.pop()
       featuredDrinks.push(json[newCounter])
     }
 
-    document.getElementById("btn-home").classList.add("button-active");
-    buildingCards(featuredDrinks);
-  })
+  document.getElementById("btn-home").classList.add("button-active");
+  buildingCards(featuredDrinks);
+})
 
 
 
 // function that builds out coffee cards dynamicaly
 buildingCards = (json) => {
-  console.log(json)
+  // console.log(json)
     let cards = document.getElementById("coffe-cards-container");
 
+    // removing previously added cards
     if (json.length < 1){
       const emptySearchMessage = document.createElement("h3");
       emptySearchMessage.innerText = "No coffe found with provided name! Please enter correct name.";
       cards.appendChild(emptySearchMessage);
     }
 
+    //building new cards
     for(let i=0; i<json.length; i++) {
 
       const card = document.createElement("div");
       card.classList.add("card-container");
 
+      // title
       const title = document.createElement("h4");
       title.innerText = json[i].title;
       title.classList.add("name");
       card.appendChild(title);
 
+      // image
       const image = document.createElement("img");
       image.src = json[i].image;
       image.classList.add("image");
       card.appendChild(image);
 
+      // description
       const description = document.createElement("p");
       description.innerText = json[i].description;
       description.classList.add("description");
       card.appendChild(description);
 
+      // ingredients
       const ingredients = document.createElement("div");
       ingredients.classList.add("ingredients-container");
 
@@ -68,7 +72,22 @@ buildingCards = (json) => {
       ingredientHeader.classList.add("ingredient-header");
       card.appendChild(ingredientHeader);
 
+      let dairyFree = true;
+      let sugarFree = true;
+
       for(let j=0; j<json[i].ingredients.length; j++) {
+
+        //checking ingredients for dairy
+        if (json[i].ingredients[j].toLowerCase().includes("milk") || json[i].ingredients[j].toLowerCase().includes("foam") || json[i].ingredients[j].toLowerCase().includes("cream") || json[i].ingredients[j].toLowerCase().includes("whip*")){
+          dairyFree = false; 
+        }
+
+        //checking ingredients for sugar
+        if (json[i].ingredients[j].toLowerCase().includes("chocolate") || json[i].ingredients[j].toLowerCase().includes("ice cream") || json[i].ingredients[j].toLowerCase().includes("sugar") || json[i].ingredients[j].toLowerCase().includes("sweet")){
+          sugarFree = false;    
+        }
+
+        // adding ingredients
         const ingredient = document.createElement("p");
         ingredient.innerText = json[i].ingredients[j];
         ingredient.classList.add("ingredients");
@@ -76,7 +95,31 @@ buildingCards = (json) => {
       }
       card.appendChild(ingredients);
 
+      // adding dietary comments
+      const dieteryContainier = document.createElement("div");
+      dieteryContainier .classList.add("dietary-notes");
 
+      if (dairyFree){
+        let dairy = document.createElement("p");
+        dairy.innerText = "DairyFree";
+        dieteryContainier.appendChild(dairy);
+        card.appendChild(dieteryContainier);
+      }
+
+      if (sugarFree){
+        // adding vertical divider only if dring is dairy free
+        if (dairyFree){
+          let separator = document.createElement("p");
+          separator.innerText = " | ";
+          dieteryContainier.appendChild(separator);
+        } 
+        let sugar = document.createElement("p");
+        sugar.innerText = "SugarFree";
+        dieteryContainier.appendChild(sugar);
+        card.appendChild(dieteryContainier);
+      }
+
+      // adding wikipedia link
       const a = document.createElement("a");
       let link = document.createTextNode("Open in Wikipedia >");
       a.appendChild(link); 
@@ -119,15 +162,16 @@ buildingCards = (json) => {
 
   }
 
-// Buttons event listeners that also fire api calls
+// Buttons event listeners that also fire api call 
 
+// home
 document.getElementById("btn-home").addEventListener("click", function(event){
   event.preventDefault();
   location.reload();
   
 });
 
-
+// hot drinks
 document.getElementById("btn-hot").addEventListener("click", function(event){
   event.preventDefault();
 
@@ -143,7 +187,7 @@ document.getElementById("btn-hot").addEventListener("click", function(event){
   getDrinks(baseUrl, currentCoffeType)
 });
 
-
+// iced drinks
 document.getElementById("btn-iced").addEventListener("click", function(event){
   event.preventDefault();
 
