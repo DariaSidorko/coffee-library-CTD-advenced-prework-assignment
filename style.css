@@ -56,7 +56,6 @@
  
  
  .button-active {
- /* font-weight: bold; */
  background-color: rgb(172, 129, 110, 0.6);
  color: white
  }
@@ -84,6 +83,20 @@
   font-weight: bold;
   color: rgb(158, 118, 102);
   padding: 25px 0;
+ }
+
+ a{
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: rgb(158, 118, 102);
+ }
+
+ a:active{
+  color: rgb(158, 118, 102);
+ }
+
+ a:visited{
+  color: rgb(158, 118, 102);
  }
  
  
@@ -146,7 +159,7 @@
   box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
   font-size: 1.8rem;
   width: 30rem;
-  min-height: 50rem;
+  min-height: 53rem;
   border-radius: 0.7rem;
   margin: 1rem 1rem;
   padding: 2.5rem 3rem 3rem 3rem;
@@ -167,11 +180,13 @@
   color: #888;
  }
  
- 
+ .ingredients-container{
+  padding-bottom: 1.5rem;
+ }
+
  .ingredient-header{
   padding-bottom: 0.5rem;
  }
- 
  
  .ingredients {
   display: flex;
@@ -181,7 +196,6 @@
   margin-right: 2rem;
  }
  
- 
  .image {
   display: flex;
   width: 100%;
@@ -190,3 +204,58 @@
   object-fit: cover;
  }
  
+
+ @media only screen and (max-width: 600px) {
+  body {
+    padding: 1em;
+   }
+
+   header {
+    font-size: 1.5em;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+   }
+
+   h2{
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 2rem 0;
+   }
+
+   nav {
+    flex-direction: column;
+    /* margin: 1% 20%; */
+    border-bottom: none;
+    border-top: none;
+   }
+   
+   button {
+    border: none;
+    font-size: 1.4rem;
+    padding: 0.6rem 4rem;
+    margin: 0.5rem;
+    color: rgb(156, 120, 106);
+    background-color: #f7f7f7;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(172, 129, 110, 0.3);
+   }
+   
+   
+   .button-active {
+   background-color: rgb(172, 129, 110, 0.6);
+   color: white
+   }
+
+   .card-container {
+    width: 70%;
+   }
+
+   input {
+    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+    width: 30rem;
+    background-color: #fbfbfb;
+    box-sizing: border-box;
+    border: 1px solid rgba(182, 137, 119, 0.5);
+    border-radius: 4px;
+   }
+}

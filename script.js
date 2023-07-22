@@ -61,7 +61,7 @@ buildingCards = (json) => {
       card.appendChild(description);
 
       const ingredients = document.createElement("div");
-      ingredients.classList.add("ingredients");
+      ingredients.classList.add("ingredients-container");
 
       const ingredientHeader = document.createElement("h5");
       ingredientHeader.innerHTML = "Ingredients:";
@@ -75,6 +75,16 @@ buildingCards = (json) => {
         ingredients.appendChild(ingredient);
       }
       card.appendChild(ingredients);
+
+
+      const a = document.createElement("a");
+      let link = document.createTextNode("Open in Wikipedia >");
+      a.appendChild(link); 
+      a.title = "Wiki link"; 
+      a.href = `https://en.wikipedia.org/wiki/${json[i].title.replace(/\s/g, '_')}`; 
+      console.log(json[i].title.replace(/\s/g, '_'));
+      a.setAttribute("target", "_blank");
+      card.appendChild(a);
 
       cards.appendChild(card);
   }
@@ -134,7 +144,7 @@ document.getElementById("btn-hot").addEventListener("click", function(event){
 });
 
 
-  document.getElementById("btn-iced").addEventListener("click", function(event){
+document.getElementById("btn-iced").addEventListener("click", function(event){
   event.preventDefault();
 
   document.getElementById("btn-home").classList.remove("button-active");
@@ -142,7 +152,7 @@ document.getElementById("btn-hot").addEventListener("click", function(event){
   document.getElementById("btn-iced").classList.add("button-active");
 
   document.getElementById("search").classList.remove("show-hide");
-  document.getElementById("search-value").value = "";
+  document.querySelector("h2").classList.add("show-hide");
   document.getElementById("search-value").placeholder = "Search ICED coffee drinks"
 
   currentCoffeType = "iced"
